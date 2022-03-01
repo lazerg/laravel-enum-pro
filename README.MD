@@ -1,0 +1,1 @@
+# Laravel Enum Professional Methods
