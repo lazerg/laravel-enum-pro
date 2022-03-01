@@ -20,8 +20,7 @@ Here is simple example of enums in PHP
 
 #### Declaration
 ```php
-enum PaymentStatusTypes: int
-
+enum PaymentStatusTypes: int {
     case PENDING = 1;
     case COMPLETE = 2;
     case REFUND = 3;
