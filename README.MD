@@ -66,7 +66,7 @@ Illuminate\Support\Collection {#777
 ### Options
 ```php
 PaymentStatusTypes::options()        // Return all cases as Collection options (very handy for admin panels, veryyyy...)
-PaymentStatusTypes::optionsToArray() // Return all cases as Collection options (very handy for admin panels, veryyyy...)
+PaymentStatusTypes::optionsToArray() // Return all cases as array options (very handy for admin panels, veryyyy...)
 
 Illuminate\Support\Collection {#7777
   #items: array:8 [
