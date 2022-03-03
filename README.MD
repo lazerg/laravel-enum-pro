@@ -6,9 +6,12 @@
 ![Last commit](https://img.shields.io/github/last-commit/lazerg/laravel-enum-pro?style=plastic)
 ![Stars count](https://img.shields.io/packagist/stars/lazerg/laravel-enum-pro?style=plastic)
 
-**The thing is that, php built-in [enum function](./ENUM.MD) is very limited as you have seen before.
-What if you want to return all values of all cases? Or all case names? That's why we developed enum-pro trait to
-enhance built-in functionality of enum**
+Finally, in [`php81`](https://php.watch/versions/8.1) has been added support
+for [Enums](https://www.wikiwand.com/en/Enum). But as enums are new in php, we do not have some helpers to work with
+that easily. So with our enum-pro package you have pretty more options for working with enums than built-in methods.
+
+It is just trait `Lazerg\LaravelEnumPro\EnumPro` which must be added into enum. So it means it use built-in enum class
+while enhancing it
 
 ### Installation
 
@@ -16,77 +19,73 @@ enhance built-in functionality of enum**
 composer require lazerg/laravel-enum-pro
 ```
 
-
 ### Usage
-First include EnumPro trait `use Lazerg\LaravelEnumPro\EnumPro;`
 
-### Values
+Create a new enum class and use our trait on it.
 
 ```php
-PaymentStatusTypes::values()         // Return all case values as Collection
-PaymentStatusTypes::valuesToArray()  // Return all case values as array
-PaymentStatusTypes::valuesToString() // Return all case values as string seperated by comma
+enum LevelTypes: int {
+    use \Lazerg\LaravelEnumPro\EnumPro;
 
-Illuminate\Support\Collection {#7777
-  #items: array:8 [
-    0 => 1
-    1 => 2
-    2 => 3
-    3 => 4
-    4 => 5
-    5 => 6
-    6 => 7
-    7 => 8
-  ]
+    case VERY_EASY = 1;
+    case EASY = 2;
+    case MEDIUM = 3;
+    case STRONG = 4;
+    case VERY_STRONG = 5
 }
 ```
 
 ### Names
+As you can see, names here `VERY_EASY`, `EASY`, `MEDIUM`, `STRONG`, `VERY_STRONG`.
+To get all case names of enum. you can use these helper methods:
 
 ```php
-PaymentStatusTypes::names()         // Return all case names as Collection
-PaymentStatusTypes::namesToArray()  // Return all case names as array
-PaymentStatusTypes::namesToString() // Return all case names as string separated by comma
+LevelTypes::names();         // Collection: ['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']
+LevelTypes::namesToArray();  // Array: ['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']
+LevelTypes::namesToString(); // String: VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG
+```
 
-Illuminate\Support\Collection {#777
-  #items: array:8 [
-    0 => "PENDING"
-    1 => "COMPLETE"
-    2 => "REFUND"
-    3 => "FAILED"
-    4 => "ABANDONED"
-    5 => "REVOKED"
-    6 => "PREAPPROVED"
-    7 => "CANCELLED"
-  ]
-}
+### Values
+As you can see, values here `1`, `2`, `3`, `4`, `5`.
+**Common usage is for:** _validate incoming request data._
 
+```php
+LevelTypes::values();         // Collection: [1, 2, 3, 4, 5]
+LevelTypes::valuesToArray();  // Array: [1, 2, 3, 4, 5]
+LevelTypes::valuesToString(); // String: 1, 2, 3, 4, 5
+```
+
+### Randomize
+Sometimes we need to get random value or values from enum.
+This is mainly used in factories.
+
+```php
+LevelTypes::random(int $count = 1);      // Collection of $count random values
+LevelTypes::randomArray(int $count = 1); // Array of $count random values
+LevelTypes::randomFirst();               // One random value
 ```
 
 ### Options
+While creating admin panel, we always change state of models.
+And basically, it is recommended to save all state types in enum.
+So in admin panel we need to get all options of enum for select.
+That's why we have `options()` method.
+
 ```php
-PaymentStatusTypes::options()        // Return all cases as Collection options (very handy for admin panels, veryyyy...)
-PaymentStatusTypes::optionsToArray() // Return all cases as array options (very handy for admin panels, veryyyy...)
-
-Illuminate\Support\Collection {#7777
-  #items: array:8 [
-    1 => "Pending"
-    2 => "Complete"
-    3 => "Refund"
-    4 => "Failed"
-    5 => "Abandoned"
-    6 => "Revoked"
-    7 => "Preapproved"
-    8 => "Cancelled"
-  ]
-}
-
+LevelTypes::options(); // Return collection of selectable options
+LevelTypes::optionsToArray(); // Return array of selectable options
 ```
 
-### Random
+**Example of options:**
 
-```php
-PaymentStatusTypes::random(int $count)      // Return $count random values as Collection
-PaymentStatusTypes::randomArray(int $count) // Return $count random values as array
-PaymentStatusTypes::randomFirst()           // Return one random value
+```bash
+Illuminate\Support\Collection {#7777
+    #items: array:5 [
+        1 => "Very Easy"
+        2 => "Easy"
+        3 => "Medium"
+        4 => "Strong"
+        5 => "Very Strong"
+    ]
+}
 ```
