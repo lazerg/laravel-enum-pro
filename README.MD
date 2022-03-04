@@ -35,6 +35,14 @@ enum LevelTypes: int {
 }
 ```
 
+### Calling
+With default functions, if you want to get value of case you should write `LevelTypes::VERY_EASY->value` which is little long.
+With our package, you can get value of case, by just calling it statically
+```php
+LevelTypes::VERY_EASY() // 1
+```
+
+
 ### Names
 As you can see, names here `VERY_EASY`, `EASY`, `MEDIUM`, `STRONG`, `VERY_STRONG`.
 To get all case names of enum. you can use these helper methods:

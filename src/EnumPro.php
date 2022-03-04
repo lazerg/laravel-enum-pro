@@ -7,5 +7,6 @@ trait EnumPro
     use EnumValues,
         EnumNames,
         EnumRandom,
-        EnumOptions;
+        EnumOptions,
+        EnumStaticCalls;
 }
