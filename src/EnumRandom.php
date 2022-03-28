@@ -25,9 +25,9 @@ trait EnumRandom
     /**
      * Get one random value
      *
-     * @return int
+     * @return int|string
      */
-    public static function randomFirst(): int
+    public static function randomFirst(): int|string
     {
         return self::random()->first();
     }
