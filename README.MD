@@ -7,7 +7,7 @@
 ![Stars count](https://img.shields.io/packagist/stars/lazerg/laravel-enum-pro?style=plastic)
 
 Finally, in [`php81`](https://php.watch/versions/8.1) has been added support
-for [Enums](https://www.wikiwand.com/en/Enum). But as enums are new in php, we do not have some helpers to work with
+for [Enums](https://www.wikiwand.com/en/Enumerated_type). But as enums are new in php, we do not have some helpers to work with
 that easily. So with our enum-pro package you have pretty more options for working with enums than built-in methods.
 
 It is just trait `Lazerg\LaravelEnumPro\EnumPro` which must be added into enum. So it means it use built-in enum class
