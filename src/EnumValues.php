@@ -24,7 +24,7 @@ trait EnumValues
      */
     public static function valuesToString(): string
     {
-        return self::values()->join(', ');
+        return self::values()->join(',');
     }
 
     /**
