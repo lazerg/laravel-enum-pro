@@ -97,3 +97,41 @@ Illuminate\Support\Collection {#7777
     ]
 }
 ```
+
+#### Selections
+Sometimes in admin panel, it is easier to give options as array of objects.
+For such needs we have also `selections()` method
+
+```php
+LevelTypes::selections();
+LevelTypes::selectionsToArray();
+```
+
+**Example of selections:**
+
+```bash
+Illuminate\Support\Collection {#7777
+    #items: array:5 [
+        0 => [
+            "value"   => "1",
+            "display" => "Very Easy",
+        ],
+        1 => [
+            "value"   => "2",
+            "display" => "Easy",
+        ],
+        2 => [
+            "value"   => "3",
+            "display" => "Medium",
+        ],
+        3 => [
+            "value"   => "4",
+            "display" => "Strong",
+        ],
+        4 => [
+            "value"   => "5",
+            "display" => "Very Strong",
+        ],
+    ]
+}
+```
