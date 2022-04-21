@@ -1,4 +1,4 @@
-# PHP Enum enhanced
+![wallpaper](./wallpaper/wallpaper.png)
 
 ![Version](https://img.shields.io/packagist/v/lazerg/laravel-enum-pro.svg?style=plastic)
 ![Downloads count](https://img.shields.io/packagist/dm/lazerg/laravel-enum-pro?style=plastic)
