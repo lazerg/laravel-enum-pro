@@ -36,6 +36,30 @@ trait EnumOptions
     }
 
     /**
+     * Get a value of an option
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function getOption(string $value): string
+    {
+        return self::options()[$value];
+    }
+
+    /**
+     * Get values of options
+     *
+     * @param array $values
+     * @return Collection
+     */
+    public static function getOptions(array $values): Collection
+    {
+        return self::options()
+            ->filter(fn($value, $key) => in_array($key, $values))
+            ->values();
+    }
+
+    /**
      * Convert cases of enum to collection of selections
      *
      * @input
