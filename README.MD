@@ -51,6 +51,7 @@ To get all case names of enum. you can use these helper methods:
 LevelTypes::names();         // Collection: ['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']
 LevelTypes::namesToArray();  // Array: ['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']
 LevelTypes::namesToString(); // String: VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG
+LevelTypes::nameOf(1);       // String: VERY_EASY
 ```
 
 ### Values
@@ -134,4 +135,10 @@ Illuminate\Support\Collection {#7777
         ],
     ]
 }
+```
+
+### Testing
+To run test
+```bash
+./vendor/bin/pest
 ```

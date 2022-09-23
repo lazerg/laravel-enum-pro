@@ -18,5 +18,13 @@
         "psr-4": {
             "Lazerg\\LaravelEnumPro\\": "src/"
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
