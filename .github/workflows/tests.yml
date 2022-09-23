@@ -1,0 +1,18 @@
+name: tests
+
+on: push
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    container:
+      image: lazerg/laravel:php81
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: install composer dependencies [by @lazerg]
+        run: |
+          composer install --no-scripts
+      - name: Run Tests [by @lazerg]
+        run: php -d memory_limit=2048M ./vendor/bin/pest
