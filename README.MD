@@ -135,3 +135,9 @@ Illuminate\Support\Collection {#7777
     ]
 }
 ```
+
+### Testing
+To run test
+```bash
+./vendor/bin/pest
+```
