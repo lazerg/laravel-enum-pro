@@ -39,6 +39,6 @@ trait EnumNames
 
     public static function nameOf(mixed $case): string
     {
-        return array_column(self::cases(), 'name', 'value')[$case instanceof self ? $case->value : $case];
+        return array_column(self::cases(), 'name', 'value')[$case];
     }
 }

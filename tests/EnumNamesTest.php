@@ -13,7 +13,7 @@ test('Get key name from value', function () {
     }
 
 
-    expect(TestEnum::nameOf(TestEnum::A))->toBe('A');
     expect(TestEnum::nameOf(1))->toBe('A');
+    expect(TestEnum::nameOf(2))->toBe('B');
     expect(TestEnum::nameOf(3))->toBe('C');
 });
