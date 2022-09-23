@@ -1,19 +1,27 @@
 <?php
 
-use Lazerg\LaravelEnumPro\EnumPro;
+test('Get name of enums as collection', function () {
+    expect(LevelTypes::names())
+        ->toBeInstanceOf(\Illuminate\Support\Collection::class);
+});
 
-test('Get key name from value', function () {
-    enum TestEnum: int {
-        use EnumPro;
+test('Get name of enums', function () {
+    expect(LevelTypes::namesToArray())
+        ->toBe([
+            0 => 'VERY_EASY',
+            1 => 'EASY',
+            2 => 'MEDIUM',
+            3 => 'STRONG',
+            4 => 'VERY_STRONG'
+        ]);
+});
 
-        CASE A = 1;
-        CASE B = 2;
-        CASE C = 3;
-        CASE D = 4;
-    }
+test('Get name of enums as string', function () {
+    expect(LevelTypes::names()->implode(', '))
+        ->toBe('VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG');
+});
 
-
-    expect(TestEnum::nameOf(1))->toBe('A');
-    expect(TestEnum::nameOf(2))->toBe('B');
-    expect(TestEnum::nameOf(3))->toBe('C');
+test('Get name of enum', function () {
+    expect(LevelTypes::nameOf(LevelTypes::MEDIUM()))
+        ->toBe('MEDIUM');
 });
