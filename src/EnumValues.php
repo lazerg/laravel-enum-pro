@@ -3,6 +3,7 @@
 namespace Lazerg\LaravelEnumPro;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 trait EnumValues
 {
@@ -35,5 +36,24 @@ trait EnumValues
     public static function valuesToArray(): array
     {
         return self::values()->toArray();
+    }
+
+    /**
+     * Return value of enum by name
+     *
+     * @param string $name
+     * @return int|string|null
+     */
+    public static function valueOf(string $name): null|int|string
+    {
+        $name = Str::replace(' ', '_', Str::upper($name));
+
+        foreach (self::cases() as $case) {
+            if ($case->name === $name) {
+                return $case->value;
+            }
+        }
+
+        return null;
     }
 }

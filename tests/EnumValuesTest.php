@@ -14,3 +14,17 @@ test('Get values of enum as array', function () {
     expect(LevelTypes::valuesToArray())
         ->toBe([1, 2, 3, 4, 5]);
 });
+
+test('Get value of enum', function () {
+    expect(LevelTypes::valueOf('VERY_EASY'))
+        ->toBe(1);
+
+    expect(LevelTypes::valueOf('medium'))
+        ->toBe(3);
+
+    expect(LevelTypes::valueOf('Very strong'))
+        ->toBe(5);
+
+    expect(LevelTypes::valueOf('Not found'))
+        ->toBeNull();
+});

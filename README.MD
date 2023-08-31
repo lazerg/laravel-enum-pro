@@ -62,6 +62,7 @@ As you can see, values here `1`, `2`, `3`, `4`, `5`.
 LevelTypes::values();         // Collection: [1, 2, 3, 4, 5]
 LevelTypes::valuesToArray();  // Array: [1, 2, 3, 4, 5]
 LevelTypes::valuesToString(); // String: 1, 2, 3, 4, 5
+LevelTypes::valueOf('very easy'); // 1
 ```
 
 ### Randomize
