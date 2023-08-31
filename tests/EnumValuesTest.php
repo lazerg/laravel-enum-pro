@@ -24,4 +24,7 @@ test('Get value of enum', function () {
 
     expect(LevelTypes::valueOf('Very strong'))
         ->toBe(5);
+
+    expect(LevelTypes::valueOf('Not found'))
+        ->toBeNull();
 });
