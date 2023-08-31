@@ -42,7 +42,7 @@ trait EnumValues
      * Return value of enum by name
      *
      * @param string $name
-     * @return int
+     * @return int|null
      */
     public static function valueOf(string $name): ?int
     {
