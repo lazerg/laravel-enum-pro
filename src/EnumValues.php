@@ -42,15 +42,18 @@ trait EnumValues
      * Return value of enum by name
      *
      * @param string $name
-     * @return int|null
+     * @return int|string|null
      */
-    public static function valueOf(string $name): ?int
+    public static function valueOf(string $name): null|int|string
     {
         $name = Str::replace(' ', '_', Str::upper($name));
 
-        return collect(self::cases())
-            ->filter(fn($case) => $case->name === Str::upper($name))
-            ->first()
-            ?->value;
+        foreach (self::cases() as $case) {
+            if ($case->name === $name) {
+                return $case->value;
+            }
+        }
+
+        return null;
     }
 }
