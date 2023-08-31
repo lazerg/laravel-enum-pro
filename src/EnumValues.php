@@ -44,13 +44,13 @@ trait EnumValues
      * @param string $name
      * @return int
      */
-    public static function valueOf(string $name): int
+    public static function valueOf(string $name): ?int
     {
         $name = Str::replace(' ', '_', Str::upper($name));
 
         return collect(self::cases())
             ->filter(fn($case) => $case->name === Str::upper($name))
             ->first()
-            ->value;
+            ?->value;
     }
 }
