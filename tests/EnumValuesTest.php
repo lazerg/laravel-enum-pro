@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 test('Get values of enum as collection', function () {
     expect(LevelTypes::values())

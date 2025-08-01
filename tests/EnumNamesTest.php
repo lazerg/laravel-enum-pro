@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 test('Get name of enums as collection', function () {
     expect(LevelTypes::names())

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lazerg\LaravelEnumPro;
 
@@ -48,12 +49,6 @@ trait EnumValues
     {
         $name = Str::replace(' ', '_', Str::upper($name));
 
-        foreach (self::cases() as $case) {
-            if ($case->name === $name) {
-                return $case->value;
-            }
-        }
-
-        return null;
+        return array_column(self::cases(), 'value', 'name')[$name] ?? null;
     }
 }
