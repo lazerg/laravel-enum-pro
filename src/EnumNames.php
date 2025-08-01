@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lazerg\LaravelEnumPro;
 
@@ -13,8 +14,7 @@ trait EnumNames
      */
     public static function names(): Collection
     {
-        return collect(self::cases())
-            ->map(fn($case) => $case->name);
+        return collect(self::cases())->pluck('name');
     }
 
     /**

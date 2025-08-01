@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lazerg\LaravelEnumPro;
 
@@ -15,11 +16,7 @@ trait EnumRandom
      */
     public static function random(int $count = 1): Collection
     {
-        if ($count > self::values()->count()) {
-            throw new InvalidArgumentException('Count of random values is greater than count of enum values');
-        }
-
-        return self::values()->shuffle()->take($count);
+        return self::values()->random($count);
     }
 
     /**
