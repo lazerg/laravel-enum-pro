@@ -17,7 +17,7 @@ test('Get name of enums', function () {
 });
 
 test('Get name of enums as string', function () {
-    expect(LevelTypes::names()->implode(', '))
+    expect(LevelTypes::namesToString())
         ->toBe('VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG');
 });
 
