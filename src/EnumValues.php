@@ -3,57 +3,73 @@
 namespace Lazerg\LaravelEnumPro;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 trait EnumValues
 {
     /**
-     * Return all values of enum as collection
+     * Get all enum case values as an array.
      *
-     * @return Collection
-     */
-    public static function values(): Collection
-    {
-        return collect(self::cases())
-            ->map(fn($case) => $case->value ?? $case->name);
-    }
-
-    /**
-     * Return all values of enum as string separated by comma
+     * @return array<int, int|string>
+     * @example DifficultyEnum::valuesToArray()
+     *          // [1, 2, 3, 4, 5]
      *
-     * @return string
-     */
-    public static function valuesToString(): string
-    {
-        return self::values()->join(',');
-    }
-
-    /**
-     * Return all values of enum as array
-     *
-     * @return array
      */
     public static function valuesToArray(): array
     {
-        return self::values()->toArray();
+        return array_column(self::cases(), 'value') ?: array_column(self::cases(), 'name');
     }
 
     /**
-     * Return value of enum by name
+     * Get all enum case values as a string.
+     *
+     * @param string $separator
+     * @return string
+     * @example DifficultyEnum::valuesToString()
+     *          // '1,2,3,4,5'
+     *
+     * @example DifficultyEnum::valuesToString(' | ')
+     *          // '1 | 2 | 3 | 4 | 5'
+     *
+     */
+    public static function valuesToString(string $separator = ','): string
+    {
+        return implode($separator, self::valuesToArray());
+    }
+
+    /**
+     * Get all enum case values as a Collection.
+     *
+     * @return Collection<int, int|string>
+     * @example DifficultyEnum::values()
+     *          // Collection([1, 2, 3, 4, 5])
+     *
+     */
+    public static function values(): Collection
+    {
+        return collect(self::valuesToArray());
+    }
+
+    /**
+     * Get the enum case value by its name (case-insensitive, spaces become underscores).
      *
      * @param string $name
      * @return int|string|null
+     * @example DifficultyEnum::valueOf('Very Strong')
+     *          // 5
+     *
+     * @example DifficultyEnum::valueOf('invalid')
+     *          // null
+     *
+     * @example DifficultyEnum::valueOf('VERY_EASY')
+     *          // 1
+     *
+     * @example DifficultyEnum::valueOf('medium')
+     *          // 3
+     *
      */
     public static function valueOf(string $name): null|int|string
     {
-        $name = Str::replace(' ', '_', Str::upper($name));
-
-        foreach (self::cases() as $case) {
-            if ($case->name === $name) {
-                return $case->value;
-            }
-        }
-
-        return null;
+        $name = strtoupper(str_replace(' ', '_', $name));
+        return array_column(self::cases(), 'value', 'name')[$name] ?? null;
     }
 }

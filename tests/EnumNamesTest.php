@@ -1,27 +1,23 @@
 <?php
 
-test('Get name of enums as collection', function () {
-    expect(LevelTypes::names())
+use Tests\DifficultyEnum;
+
+it('can get all enum names as a collection', function () {
+    expect(DifficultyEnum::names())
         ->toBeInstanceOf(\Illuminate\Support\Collection::class);
 });
 
-test('Get name of enums', function () {
-    expect(LevelTypes::namesToArray())
-        ->toBe([
-            0 => 'VERY_EASY',
-            1 => 'EASY',
-            2 => 'MEDIUM',
-            3 => 'STRONG',
-            4 => 'VERY_STRONG'
-        ]);
+it('can get all enum names as an array', function () {
+    expect(DifficultyEnum::namesToArray())
+        ->toBe(['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']);
 });
 
-test('Get name of enums as string', function () {
-    expect(LevelTypes::names()->implode(', '))
+it('can get all enum names as a comma-separated string', function () {
+    expect(DifficultyEnum::namesToString())
         ->toBe('VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG');
 });
 
-test('Get name of enum', function () {
-    expect(LevelTypes::nameOf(LevelTypes::MEDIUM()))
+it('can get enum name by its value', function () {
+    expect(DifficultyEnum::nameOf(DifficultyEnum::MEDIUM()))
         ->toBe('MEDIUM');
 });

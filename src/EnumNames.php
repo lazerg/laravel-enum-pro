@@ -7,38 +7,62 @@ use Illuminate\Support\Collection;
 trait EnumNames
 {
     /**
-     * Return all names of enum as collection
+     * Get all enum case names as an array.
      *
-     * @return Collection
-     */
-    public static function names(): Collection
-    {
-        return collect(self::cases())
-            ->map(fn($case) => $case->name);
-    }
-
-    /**
-     * Return all names of enum as string separated by comma
+     * @return array<int, string>
+     * @example DifficultyEnum::namesToArray()
+     *          // ['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG']
      *
-     * @return string
-     */
-    public static function namesToString(): string
-    {
-        return self::names()->join(', ');
-    }
-
-    /**
-     * Return all names of enum as array
-     *
-     * @return array
      */
     public static function namesToArray(): array
     {
-        return self::names()->toArray();
+        return array_column(self::cases(), 'name');
     }
 
-    public static function nameOf(mixed $case): string
+    /**
+     * Get all enum case names as a string.
+     *
+     * @param string $separator
+     * @return string
+     * @example DifficultyEnum::namesToString()
+     *          // 'VERY_EASY, EASY, MEDIUM, STRONG, VERY_STRONG'
+     *
+     * @example DifficultyEnum::namesToString(' | ')
+     *          // 'VERY_EASY | EASY | MEDIUM | STRONG | VERY_STRONG'
+     *
+     */
+    public static function namesToString(string $separator = ', '): string
     {
-        return array_column(self::cases(), 'name', 'value')[$case];
+        return implode($separator, self::namesToArray());
+    }
+
+    /**
+     * Get all enum case names as a Collection.
+     *
+     * @return Collection<int, string>
+     * @example DifficultyEnum::names()
+     *          // Collection(['VERY_EASY', 'EASY', 'MEDIUM', 'STRONG', 'VERY_STRONG'])
+     *
+     */
+    public static function names(): Collection
+    {
+        return collect(self::namesToArray());
+    }
+
+    /**
+     * Get the enum case name by its value.
+     *
+     * @param mixed $value
+     * @return string|null
+     * @example DifficultyEnum::nameOf(3)
+     *          // 'MEDIUM'
+     *
+     * @example DifficultyEnum::nameOf(99)
+     *          // null
+     *
+     */
+    public static function nameOf(mixed $value): ?string
+    {
+        return array_column(self::cases(), 'name', 'value')[$value] ?? null;
     }
 }

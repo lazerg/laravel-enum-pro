@@ -3,103 +3,103 @@
 namespace Lazerg\LaravelEnumPro;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use UnitEnum;
 
 trait EnumOptions
 {
     /**
-     * Convert cases of enum to collection of options
+     * Get all enum cases as key-value array with formatted labels.
      *
-     * @input
-     * case RENTAL_TRUCK = 1;
-     * case CONTAINER = 2;
-     * case FREIGHT_TRAILER = 3;
+     * @return array<int|string, string>
+     * @example DifficultyEnum::optionsToArray()
+     *          // [1 => 'Very Easy', 2 => 'Easy', 3 => 'Medium', 4 => 'Strong', 5 => 'Very Strong']
      *
-     * @output
-     * [
-     *   1 => "Rental Truck"
-     *   2 => "Container"
-     *   3 => "Freight Trailer"
-     * ]
-     *
-     * @return Collection
-     */
-    public static function options(): Collection
-    {
-        return collect(self::cases())->mapWithKeys(fn(UnitEnum $enum) => [
-            $enum->value => Str::of($enum->name)
-                ->replace('_', ' ')
-                ->title()
-                ->value()
-        ]);
-    }
-
-    /**
-     * Get a value of an option
-     *
-     * @param string $value
-     * @return string
-     */
-    public static function getOption(string $value): string
-    {
-        return self::options()[$value];
-    }
-
-    /**
-     * Get values of options
-     *
-     * @param array $values
-     * @return Collection
-     */
-    public static function getOptions(array $values): Collection
-    {
-        return self::options()
-            ->filter(fn($value, $key) => in_array($key, $values))
-            ->values();
-    }
-
-    /**
-     * Convert cases of enum to collection of selections
-     *
-     * @input
-     * case RENTAL_TRUCK = 1;
-     * case CONTAINER = 2;
-     * case FREIGHT_TRAILER = 3;
-     *
-     * @output
-     * [
-     *  0 => ['value' => 1, 'display' => 'Rental Truck'],
-     *  1 => ['value' => 2, 'display' => 'Container'],
-     *  3 => ['value' => 3, 'display' => 'Freight Trailer']
-     * ]
-     *
-     * @return Collection
-     */
-    public static function selections(): Collection
-    {
-        return self::options()
-            ->map(fn($display, $value) => compact('value', 'display'))
-            ->values();
-    }
-
-    /**
-     * Convert cases of enum to array of options
-     *
-     * @return array
      */
     public static function optionsToArray(): array
     {
-        return self::options()->toArray();
+        return array_combine(
+            array_column(self::cases(), 'value'),
+            array_map(fn($case) => ucwords(strtolower(str_replace('_', ' ', $case->name))), self::cases())
+        );
     }
 
     /**
-     * Convert cases of enum to array of selections
+     * Get all enum cases as a Collection with formatted labels.
      *
-     * @return array
+     * @return Collection<int|string, string>
+     * @example DifficultyEnum::options()
+     *          // Collection([1 => 'Very Easy', 2 => 'Easy', 3 => 'Medium', 4 => 'Strong', 5 => 'Very Strong'])
+     *
+     */
+    public static function options(): Collection
+    {
+        return collect(self::optionsToArray());
+    }
+
+    /**
+     * Get a single option label by its value.
+     *
+     * @param mixed $value
+     * @return string|null
+     * @example DifficultyEnum::getOption(5)
+     *          // 'Very Strong'
+     *
+     * @example DifficultyEnum::getOption(99)
+     *          // null
+     *
+     */
+    public static function getOption(mixed $value): ?string
+    {
+        return self::optionsToArray()[$value] ?? null;
+    }
+
+    /**
+     * Get multiple option labels by their values.
+     *
+     * @param array $values
+     * @return array<int, string>
+     * @example DifficultyEnum::getOptions([3, 5])
+     *          // ['Medium', 'Very Strong']
+     *
+     */
+    public static function getOptions(array $values): array
+    {
+        return array_values(array_intersect_key(self::optionsToArray(), array_flip($values)));
+    }
+
+    /**
+     * Get all enum cases as array of selections for form inputs.
+     *
+     * @return array<int, array{value: int|string, display: string}>
+     * @example DifficultyEnum::selectionsToArray()
+     *          // [
+     *          //     ['value' => 1, 'display' => 'Very Easy'],
+     *          //     ['value' => 2, 'display' => 'Easy'],
+     *          //     ['value' => 3, 'display' => 'Medium'],
+     *          //     ['value' => 4, 'display' => 'Strong'],
+     *          //     ['value' => 5, 'display' => 'Very Strong'],
+     *          // ]
+     *
      */
     public static function selectionsToArray(): array
     {
-        return self::selections()->toArray();
+        $options = self::optionsToArray();
+        return array_map(fn($value) => ['value' => $value, 'display' => $options[$value]], array_keys($options));
+    }
+
+    /**
+     * Get all enum cases as Collection of selections for form inputs.
+     *
+     * @return Collection<int, array{value: int|string, display: string}>
+     * @example DifficultyEnum::selections()
+     *          // Collection([
+     *          //     ['value' => 1, 'display' => 'Very Easy'],
+     *          //     ['value' => 2, 'display' => 'Easy'],
+     *          //     ...
+     *          // ])
+     *
+     */
+    public static function selections(): Collection
+    {
+        return collect(self::selectionsToArray());
     }
 }

@@ -3,43 +3,57 @@
 namespace Lazerg\LaravelEnumPro;
 
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
+use Lazerg\LaravelEnumPro\Exceptions\TooManyRandomValuesException;
 
 trait EnumRandom
 {
     /**
-     * Get $count random values in collection
+     * Get random enum values as an array.
      *
      * @param int $count
-     * @return Collection
-     */
-    public static function random(int $count = 1): Collection
-    {
-        if ($count > self::values()->count()) {
-            throw new InvalidArgumentException('Count of random values is greater than count of enum values');
-        }
-
-        return self::values()->shuffle()->take($count);
-    }
-
-    /**
-     * Get one random value
+     * @return array<int, int|string>
+     * @throws TooManyRandomValuesException When requesting more values than available
+     * @example DifficultyEnum::randomArray(2)
+     *          // [3, 1] (random)
      *
-     * @return int|string
-     */
-    public static function randomFirst(): int|string
-    {
-        return self::random()->first();
-    }
-
-    /**
-     * Get $count random values in array
-     *
-     * @param int $count
-     * @return array
      */
     public static function randomArray(int $count = 1): array
     {
-        return self::random($count)->toArray();
+        $values = self::valuesToArray();
+
+        if ($count > count($values)) {
+            throw new TooManyRandomValuesException($count, count($values));
+        }
+
+        $keys = array_rand($values, $count);
+        return array_map(fn($key) => $values[$key], (array) $keys);
+    }
+
+    /**
+     * Get a single random enum value.
+     *
+     * @return int|string
+     * @example DifficultyEnum::randomFirst()
+     *          // 4 (random)
+     *
+     */
+    public static function randomFirst(): int|string
+    {
+        return self::randomArray()[0];
+    }
+
+    /**
+     * Get random enum values as a Collection.
+     *
+     * @param int $count
+     * @return Collection<int, int|string>
+     * @throws TooManyRandomValuesException When requesting more values than available
+     * @example DifficultyEnum::random(3)
+     *          // Collection([2, 5, 1]) (random)
+     *
+     */
+    public static function random(int $count = 1): Collection
+    {
+        return collect(self::randomArray($count));
     }
 }
