@@ -3,12 +3,12 @@
 ![Laravel Enum Pro](./wallpaper/wallpaper.png)
 
 [![Latest Version](https://img.shields.io/packagist/v/lazerg/laravel-enum-pro.svg?style=flat-square)](https://packagist.org/packages/lazerg/laravel-enum-pro)
+[![PHP Version](https://img.shields.io/packagist/php-v/lazerg/laravel-enum-pro?style=flat-square)](https://packagist.org/packages/lazerg/laravel-enum-pro)
 [![Downloads](https://img.shields.io/packagist/dm/lazerg/laravel-enum-pro.svg?style=flat-square)](https://packagist.org/packages/lazerg/laravel-enum-pro)
-[![Repository Size](https://img.shields.io/github/repo-size/lazerg/laravel-enum-pro?style=flat-square)](https://github.com/lazerg/laravel-enum-pro)
-[![Last Commit](https://img.shields.io/github/last-commit/lazerg/laravel-enum-pro?style=flat-square)](https://github.com/lazerg/laravel-enum-pro)
+[![Total Downloads](https://img.shields.io/packagist/dt/lazerg/laravel-enum-pro?style=flat-square)](https://packagist.org/packages/lazerg/laravel-enum-pro)
 [![Packagist Stars](https://img.shields.io/packagist/stars/lazerg/laravel-enum-pro?style=flat-square)](https://packagist.org/packages/lazerg/laravel-enum-pro)
 
-`Laravel Enum Pro` is a simple trait that extends PHP 8.1+ enums with helpful utilities for Laravel applications. It lets you access enum data in a variety of convenient ways while keeping your code clean and expressive.
+`Laravel Enum Pro` is a powerful trait that supercharges PHP 8.1+ enums with Laravel-friendly utilities. Get values, names, random cases, and form-ready options with a clean, fluent API.
 
 ## Features
 
@@ -45,7 +45,10 @@ enum LevelTypes: int
 
 ```php
 LevelTypes::VERY_EASY();          // 1
-LevelTypes::valueOf('very easy'); // 1
+LevelTypes::valueOf('VERY_EASY'); // 1
+
+$enum = LevelTypes::MEDIUM;
+$enum();                          // 3 (invoke to get value)
 ```
 
 ### Working With Names
@@ -68,9 +71,9 @@ LevelTypes::valuesToString(); // "1,2,3,4,5"
 ### Randomization
 
 ```php
-LevelTypes::random();      // Collection with one random value
-LevelTypes::randomArray(); // Array with one random value
-LevelTypes::randomFirst(); // Single random value
+LevelTypes::random();         // Random enum case (e.g., LevelTypes::MEDIUM)
+LevelTypes::randomFirst();    // Alias for random()
+LevelTypes::randomArray(3);   // Array of 3 random enum cases
 ```
 
 ### Options and Selections
@@ -78,10 +81,13 @@ LevelTypes::randomFirst(); // Single random value
 Use these helpers when building form inputs.
 
 ```php
-LevelTypes::options();       // Collection of [value => display]
-LevelTypes::optionsToArray();
-LevelTypes::selections();    // Collection of [value => ..., display => ...]
-LevelTypes::selectionsToArray();
+LevelTypes::options();            // Collection of ['id' => value, 'name' => name]
+LevelTypes::optionsToArray();     // Same as above, as array
+LevelTypes::getOption(1);         // Single option: ['id' => 1, 'name' => 'VERY_EASY']
+LevelTypes::getOptions([1, 3]);   // Collection of options for values 1 and 3
+
+LevelTypes::selections();         // Collection of ['value' => value, 'label' => name]
+LevelTypes::selectionsToArray();  // Same as above, as array
 ```
 
 Example output of `options()`:
@@ -89,11 +95,25 @@ Example output of `options()`:
 ```php
 Illuminate\Support\Collection {
     #items: [
-        1 => "Very Easy",
-        2 => "Easy",
-        3 => "Medium",
-        4 => "Strong",
-        5 => "Very Strong",
+        ['id' => 1, 'name' => 'VERY_EASY'],
+        ['id' => 2, 'name' => 'EASY'],
+        ['id' => 3, 'name' => 'MEDIUM'],
+        ['id' => 4, 'name' => 'STRONG'],
+        ['id' => 5, 'name' => 'VERY_STRONG'],
+    ]
+}
+```
+
+Example output of `selections()`:
+
+```php
+Illuminate\Support\Collection {
+    #items: [
+        ['value' => 1, 'label' => 'VERY_EASY'],
+        ['value' => 2, 'label' => 'EASY'],
+        ['value' => 3, 'label' => 'MEDIUM'],
+        ['value' => 4, 'label' => 'STRONG'],
+        ['value' => 5, 'label' => 'VERY_STRONG'],
     ]
 }
 ```

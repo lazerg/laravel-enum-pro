@@ -5,14 +5,17 @@ on: push
 jobs:
   testing:
     runs-on: ubuntu-latest
-    container:
-      image: lazerg/laravel:php81
+    strategy:
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          fetch-depth: 1
-      - name: install composer dependencies [by @lazerg]
-        run: |
-          composer install --no-scripts
-      - name: Run Tests [by @lazerg]
-        run: php -d memory_limit=2048M ./vendor/bin/pest
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Install composer dependencies
+        run: composer update --no-interaction --prefer-dist
+      - name: Run Tests
+        run: ./vendor/bin/pest
