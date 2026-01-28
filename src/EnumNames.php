@@ -6,39 +6,23 @@ use Illuminate\Support\Collection;
 
 trait EnumNames
 {
-    /**
-     * Return all names of enum as collection
-     *
-     * @return Collection
-     */
-    public static function names(): Collection
-    {
-        return collect(self::cases())
-            ->map(fn($case) => $case->name);
-    }
-
-    /**
-     * Return all names of enum as string separated by comma
-     *
-     * @return string
-     */
-    public static function namesToString(): string
-    {
-        return self::names()->join(', ');
-    }
-
-    /**
-     * Return all names of enum as array
-     *
-     * @return array
-     */
     public static function namesToArray(): array
     {
-        return self::names()->toArray();
+        return array_column(self::cases(), 'name');
     }
 
-    public static function nameOf(mixed $case): string
+    public static function namesToString(string $separator = ', '): string
     {
-        return array_column(self::cases(), 'name', 'value')[$case];
+        return implode($separator, self::namesToArray());
+    }
+
+    public static function names(): Collection
+    {
+        return collect(self::namesToArray());
+    }
+
+    public static function nameOf(mixed $value): ?string
+    {
+        return array_column(self::cases(), 'name', 'value')[$value] ?? null;
     }
 }

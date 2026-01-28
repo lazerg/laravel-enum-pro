@@ -1,28 +1,28 @@
 <?php
 
-test('Get random values as collection', function () {
-    expect(LevelTypes::random())
+use Tests\DifficultyEnum;
+
+it('can get random enum values as a collection', function () {
+    expect(DifficultyEnum::random())
         ->toBeInstanceOf(\Illuminate\Support\Collection::class);
 });
 
-test('Get random values with count', function () {
-    expect(LevelTypes::random(3))
+it('can get a specific count of random enum values', function () {
+    expect(DifficultyEnum::random(3))
         ->toHaveCount(3);
 });
 
-test('Get random first value', function () {
-    expect(LevelTypes::randomFirst())
+it('can get a single random enum value', function () {
+    expect(DifficultyEnum::randomFirst())
         ->toBeIn([1, 2, 3, 4, 5]);
 });
 
-test('Get random values as array', function () {
-    $random = LevelTypes::randomArray(2);
-
-    expect($random)
+it('can get random enum values as an array', function () {
+    expect(DifficultyEnum::randomArray(2))
         ->toBeArray()
         ->toHaveCount(2);
 });
 
-test('Random throws exception when count exceeds enum values', function () {
-    LevelTypes::random(10);
-})->throws(InvalidArgumentException::class, 'Count of random values is greater than count of enum values');
+it('throws exception when requesting more random values than available', function () {
+    DifficultyEnum::random(10);
+})->throws(\Lazerg\LaravelEnumPro\Exceptions\TooManyRandomValuesException::class);
