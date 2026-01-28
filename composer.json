@@ -31,7 +31,7 @@
         }
     },
     "require-dev": {
-        "pestphp/pest": "^2.0|^3.0"
+        "pestphp/pest": "^1.0|^2.0|^3.0"
     },
     "config": {
         "allow-plugins": {
